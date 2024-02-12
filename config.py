@@ -1,4 +1,5 @@
 CATEGORIES = {
+    "Books": [".epub"],
     "Documents": [".pdf", ".docx", ".txt"],
     "Images": [".jpg", ".jpeg", ".png", ".gif", ".HEIC", ".heic", ".webp"],
     "Screenshots": [".png"],
