@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.project.organize_downloads</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/ignaciojorquera/anaconda3/envs/download_organizer/bin/python3</string>
+        <string>/Users/ignaciojorquera/VSCodeProjects/Download_Organizer/download_organizer.py</string>
+    </array>
+
+    <key>WatchPaths</key>
+    <array>
+        <string>/Users/ignaciojorquera/Downloads</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/com.project.organize_downloads.err</string>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/com.project.organize_downloads.out</string>
+</dict>
+</plist>
