@@ -6,6 +6,6 @@ CATEGORIES = {
     "Videos": [".mp4", ".mov"],
     "PPTs": [".ppt", ".pptx", ".odp"],
     "Excels": [".xls", ".xlsx", ".ods", ".csv"],
-    "Codes": [".py", ".js", ".html", ".css", ".java", ".php", ".ts", ".swift", ".sql", ".db"],
+    "Codes": [".py", ".js", ".html", ".css", ".java", ".php", ".ts", ".swift", ".sql", ".db", ".ipynb", ".json"],
     "Archives": [".zip", ".rar", ".7z"]
 }
