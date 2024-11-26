@@ -7,13 +7,13 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/ignaciojorquera/anaconda3/envs/download_organizer/bin/python3</string>
-        <string>/Users/ignaciojorquera/VSCodeProjects/Download_Organizer/download_organizer.py</string>
+        <string>/opt/anaconda3/bin/python3</string>
+        <string>/Users/tu_usuario/Download_Organizer/download_organizer.py</string>
     </array>
 
     <key>WatchPaths</key>
     <array>
-        <string>/Users/ignaciojorquera/Downloads</string>
+        <string>/Users/tu_usuario/Downloads</string>
     </array>
 
     <key>RunAtLoad</key>
