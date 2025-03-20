@@ -1,11 +1,11 @@
 CATEGORIES = {
-    "Documents": [".pdf", ".docx", ".txt", ".epub"],
-    "Images": [".jpg", ".jpeg", ".png", ".gif", ".HEIC", ".heic", ".webp"],
-    "Screenshots": [".png"],
-    "Music": [".mp3", ".wav"],
-    "Videos": [".mp4", ".mov"],
-    "PPTs": [".ppt", ".pptx", ".odp"],
-    "Excels": [".xls", ".xlsx", ".ods", ".csv"],
+    "Archives": [".zip", ".rar", ".7z", ".dmg"], 
     "Codes": [".py", ".js", ".html", ".css", ".java", ".php", ".ts", ".swift", ".sql", ".db", ".ipynb", ".json"],
-    "Archives": [".zip", ".rar", ".7z"]
+    "Documents": [".pdf", ".docx", ".txt", ".epub"],
+    "Excels": [".xls", ".xlsx", ".ods", ".csv"],
+    "Images": [".jpg", ".jpeg", ".png", ".gif", ".HEIC", ".heic", ".webp"],
+    "Media": [".mp3", ".mp4", ".wav", ".mov", ".avi"],
+    "Screenshots": [".png"],
+    "PPTs": [".ppt", ".pptx", ".odp"],
+    "SVGs": [".svg"],
 }
