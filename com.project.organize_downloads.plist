@@ -17,7 +17,10 @@
     </array>
 
     <key>RunAtLoad</key>
-    <false/>
+    <true/>
+
+    <key>ThrottleInterval</key>
+    <integer>5</integer>
 
     <key>StandardErrorPath</key>
     <string>/tmp/com.project.organize_downloads.err</string>

@@ -1,57 +1,103 @@
+import logging
 import os
 import re
 import sys
 from shutil import move
-from config import CATEGORIES
+from config import CATEGORIES, TEMP_EXTENSIONS
 
-DOWNLOADS_PATH = "/Users/nacho/Downloads"
+DOWNLOADS_PATH = os.path.expanduser("~/Downloads")
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
+log = logging.getLogger(__name__)
+
+# Pre-compiled regex for macOS screenshot filenames.
+# Covers: "Screenshot 2024-01-15 at 10.30.00.png"
+# and duplicates: "Screenshot 2024-01-15 at 10.30.00 2.png"
+SCREENSHOT_RE = re.compile(
+    r"^Screenshot \d{4}-\d{2}-\d{2} at \d{2}\.\d{2}\.\d{2}(?: \d+)?\.png$"
+)
+
+# Build a lookup dict {".pdf": "Documents", ".zip": "Archives", ...}
+# so extension matching is O(1) instead of O(categories × extensions).
+EXTENSION_MAP: dict[str, str] = {}
+for _folder, _extensions in CATEGORIES.items():
+    for _ext in _extensions:
+        EXTENSION_MAP.setdefault(_ext.lower(), _folder)
+
 
 def create_folders():
-    # Crea una carpeta para cada categoría si no existe.
-    for folder in CATEGORIES.keys():
+    """Create a subfolder for each category and Screenshots if it doesn't exist."""
+    for folder in list(CATEGORIES.keys()) + ["Screenshots"]:
         folder_path = os.path.join(DOWNLOADS_PATH, folder)
-        if not os.path.exists(folder_path):
-            try:
-                os.makedirs(folder_path)
-            except (PermissionError, Exception):
-                sys.exit(1)
+        try:
+            os.makedirs(folder_path, exist_ok=True)
+        except PermissionError:
+            log.error("Permission denied creating folder: %s", folder_path)
+        except Exception:
+            log.exception("Unexpected error creating folder: %s", folder_path)
 
-def is_screenshot(filename):
-    # Revisa si el archivo .png es un screenshot basado en el patrón de nombre de macOS.
-    pattern = r"^Screenshot \d{4}-\d{2}-\d{2} at \d{2}\.\d{2}\.\d{2}\.png$"
-    return re.match(pattern, filename) is not None
+
+def resolve_destination(directory: str, filename: str) -> str:
+    """Return a path in *directory* for *filename*, adding a numeric suffix on collision."""
+    destination = os.path.join(directory, filename)
+    if not os.path.exists(destination):
+        return destination
+
+    name, ext = os.path.splitext(filename)
+    counter = 1
+    while True:
+        destination = os.path.join(directory, f"{name} ({counter}){ext}")
+        if not os.path.exists(destination):
+            return destination
+        counter += 1
+
 
 def organize_files():
-    # Revisa y organiza los archivos en la carpeta Descargas.
+    """Scan Downloads and move each file into its matching category folder."""
     try:
-        files = os.listdir(DOWNLOADS_PATH)
+        entries = os.listdir(DOWNLOADS_PATH)
     except (PermissionError, FileNotFoundError):
+        log.exception("Cannot list downloads directory: %s", DOWNLOADS_PATH)
         sys.exit(1)
-    
-    for filename in files:
+
+    for filename in entries:
+        # Skip dotfiles (.DS_Store, .localized, etc.)
+        if filename.startswith("."):
+            continue
+
         source = os.path.join(DOWNLOADS_PATH, filename)
 
         if os.path.isdir(source):
             continue
 
-        # Determina la carpeta dependiendo de la extensión o si es un screenshot
-        destination_folder = None
-        # Revisión si es un screenshot o no
-        if filename.endswith(".png") and is_screenshot(filename):
+        # Skip incomplete browser downloads
+        ext_lower = os.path.splitext(filename)[1].lower()
+        if ext_lower in TEMP_EXTENSIONS:
+            continue
+
+        # Determine destination folder
+        if filename.endswith(".png") and SCREENSHOT_RE.match(filename):
             destination_folder = "Screenshots"
         else:
-            for folder, extensions in CATEGORIES.items():
-                if any(filename.lower().endswith(ext.lower()) for ext in extensions):
-                    destination_folder = folder
-                    break
+            destination_folder = EXTENSION_MAP.get(ext_lower)
 
-        # Mueve el archivo a la carpeta correspondiente
-        if destination_folder:
-            destination = os.path.join(DOWNLOADS_PATH, destination_folder, filename)
-            try:
-                move(source, destination)
-            except (PermissionError, FileExistsError, Exception):
-                pass
+        if destination_folder is None:
+            continue
+
+        destination = resolve_destination(
+            os.path.join(DOWNLOADS_PATH, destination_folder), filename
+        )
+        try:
+            move(source, destination)
+            log.info("Moved: %s -> %s/", filename, destination_folder)
+        except PermissionError:
+            log.error("Permission denied moving: %s", filename)
+        except Exception:
+            log.exception("Failed to move: %s", filename)
+
 
 if __name__ == "__main__":
     create_folders()
