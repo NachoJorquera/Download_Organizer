@@ -7,22 +7,31 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/opt/anaconda3/bin/python3</string>
-        <string>/Users/tu_usuario/Download_Organizer/download_organizer.py</string>
+        <string>/bin/bash</string>
+        <string>/Users/nacho/Projects/Download_Organizer/launch_organizer.sh</string>
     </array>
 
     <key>WatchPaths</key>
     <array>
-        <string>/Users/tu_usuario/Downloads</string>
+        <string>/Users/nacho/Downloads</string>
     </array>
 
     <key>RunAtLoad</key>
-    <true/>
+    <false/>
 
     <key>StandardErrorPath</key>
     <string>/tmp/com.project.organize_downloads.err</string>
 
     <key>StandardOutPath</key>
     <string>/tmp/com.project.organize_downloads.out</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>/Users/nacho</string>
+    </dict>
 </dict>
 </plist>
+

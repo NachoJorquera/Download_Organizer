@@ -4,3 +4,9 @@ __pycache__/
 
 # Archivos compilados por Mac OS
 .DS_Store
+
+# Archivo de configuración de entorno
+.venv/
+
+# Documentación de  Claude
+CLAUDE.md

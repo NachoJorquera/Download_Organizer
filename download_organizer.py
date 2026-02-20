@@ -1,16 +1,20 @@
 import os
 import re
+import sys
 from shutil import move
 from config import CATEGORIES
 
-DOWNLOADS_PATH = "/Users/ignaciojorquera/Downloads"
+DOWNLOADS_PATH = "/Users/nacho/Downloads"
 
 def create_folders():
     # Crea una carpeta para cada categoría si no existe.
     for folder in CATEGORIES.keys():
         folder_path = os.path.join(DOWNLOADS_PATH, folder)
         if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
+            try:
+                os.makedirs(folder_path)
+            except (PermissionError, Exception):
+                sys.exit(1)
 
 def is_screenshot(filename):
     # Revisa si el archivo .png es un screenshot basado en el patrón de nombre de macOS.
@@ -19,7 +23,12 @@ def is_screenshot(filename):
 
 def organize_files():
     # Revisa y organiza los archivos en la carpeta Descargas.
-    for filename in os.listdir(DOWNLOADS_PATH):
+    try:
+        files = os.listdir(DOWNLOADS_PATH)
+    except (PermissionError, FileNotFoundError):
+        sys.exit(1)
+    
+    for filename in files:
         source = os.path.join(DOWNLOADS_PATH, filename)
 
         if os.path.isdir(source):
@@ -39,7 +48,10 @@ def organize_files():
         # Mueve el archivo a la carpeta correspondiente
         if destination_folder:
             destination = os.path.join(DOWNLOADS_PATH, destination_folder, filename)
-            move(source, destination)
+            try:
+                move(source, destination)
+            except (PermissionError, FileExistsError, Exception):
+                pass
 
 if __name__ == "__main__":
     create_folders()
