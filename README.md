@@ -89,8 +89,8 @@ launchctl list | grep com.project.organize_downloads
 
 El organizador crea estas carpetas dentro de `DOWNLOADS_PATH` (por defecto `~/Downloads/`). Las extensiones salen de `config.py` y no distinguen mayúsculas:
 
-- **📄 Documents**: `.txt`
 - **📕 Documents/PDFs**: `.pdf`
+- **📄 Documents/TXTs**: `.txt`
 - **📝 Documents/Words**: `.docx`
 - **📚 Documents/eBooks**: `.epub`
 - **🖼️ Images**: `.jpg`, `.jpeg`, `.png`, `.gif`, `.heic`, `.webp`
