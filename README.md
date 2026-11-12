@@ -6,7 +6,7 @@ Un organizador automático de archivos para la carpeta Downloads que utiliza Lau
 
 - **Organización automática**: Detecta nuevos archivos en Downloads y los organiza instantáneamente
 - **Categorización inteligente**: Organiza archivos por tipo (Documentos, Imágenes, Media, etc.)
-- **Detección de Screenshots**: Identifica automáticamente screenshots de macOS
+- **Detección de Screenshots**: Identifica automáticamente screenshots de macOS en inglés y español
 - **Ejecución en background**: Funciona silenciosamente usando LaunchAgent
 - **Sin dependencias externas**: Usa solo Python del sistema
 
@@ -87,17 +87,20 @@ launchctl list | grep com.project.organize_downloads
 
 ## 📁 Estructura de carpetas
 
-El organizador creará automáticamente estas carpetas en `~/Downloads/`:
+El organizador crea estas carpetas dentro de `DOWNLOADS_PATH` (por defecto `~/Downloads/`). Las extensiones salen de `config.py` y no distinguen mayúsculas:
 
-- **📄 Documents**: `.pdf`, `.doc`, `.docx`, `.txt`, `.rtf`
-- **🖼️ Images**: `.jpg`, `.jpeg`, `.png`, `.gif`, `.bmp`, `.svg`, `.webp`
-- **📸 Screenshots**: Screenshots de macOS (patrón específico)
-- **🗜️ Archives**: `.zip`, `.rar`, `.7z`, `.tar`, `.gz`
-- **📊 Excels**: `.xls`, `.xlsx`, `.csv`
-- **📽️ Media**: `.mp4`, `.avi`, `.mov`, `.mkv`, `.mp3`, `.wav`
-- **🎨 SVGs**: `.svg`
-- **💾 Codes**: `.py`, `.js`, `.html`, `.css`, `.json`
-- **📑 PPTs**: `.ppt`, `.pptx`
+- **📄 Documents**: `.pdf`, `.docx`, `.txt`, `.epub`
+- **🖼️ Images**: `.jpg`, `.jpeg`, `.png`, `.gif`, `.heic`, `.webp`
+- **🎨 Images/SVGs**: `.svg`
+- **📸 Screenshots**: capturas de pantalla de macOS en inglés o español, con reloj de 12 o 24 horas
+- **🗜️ Archives**: `.zip`, `.rar`, `.7z`
+- **💿 Archives/Installers**: `.dmg`
+- **📊 Excels**: `.xls`, `.xlsx`, `.ods`, `.csv`
+- **📽️ Media**: `.mp3`, `.mp4`, `.wav`, `.mov`, `.avi`
+- **💾 Codes**: `.py`, `.js`, `.html`, `.css`, `.java`, `.php`, `.ts`, `.swift`, `.sql`, `.db`, `.ipynb`, `.json`, `.md`, `.sh`
+- **📑 PPTs**: `.ppt`, `.pptx`, `.odp`
+
+Los archivos con otras extensiones se quedan donde están.
 
 ## 🔧 Comandos útiles
 
@@ -113,8 +116,11 @@ launchctl load ~/Library/LaunchAgents/com.project.organize_downloads.plist
 # Verificar estado
 launchctl list | grep com.project.organize_downloads
 
-# Ejecutar manualmente (para pruebas)
-python3 download_organizer.py
+# Ejecutar manualmente (para pruebas, usa DOWNLOADS_PATH de .env)
+./launch_organizer.sh
+
+# Ejecutar los tests
+python3 -m unittest
 ```
 
 ### Desinstalación
@@ -124,8 +130,8 @@ python3 download_organizer.py
 launchctl unload ~/Library/LaunchAgents/com.project.organize_downloads.plist
 rm ~/Library/LaunchAgents/com.project.organize_downloads.plist
 
-# Eliminar el directorio del proyecto
-rm -rf ~/Downloads/Download_Organizer
+# Eliminar la carpeta donde clonaste el proyecto
+rm -rf /ruta/a/Download_Organizer
 ```
 
 ## 🛠️ Personalización
@@ -183,10 +189,11 @@ ls -la launch_organizer.sh
 
 ## 📝 Notas
 
-- El organizador funciona **solo con archivos nuevos** que se agreguen a Downloads
-- **No reorganiza** archivos existentes al instalar
-- Los **archivos en subcarpetas** no son procesados
-- El servicio se ejecuta **automáticamente** al detectar cambios
+- Al instalar y en cada inicio de sesión, el servicio **organiza los archivos que ya están** en la carpeta
+- Después se ejecuta **automáticamente** cuando cambia la carpeta, con 5 segundos de espera entre ejecuciones
+- Los **archivos en subcarpetas** no se procesan
+- Las **descargas incompletas** (`.crdownload`, `.download`, `.part`) y los archivos ocultos se ignoran
+- Si ya existe un archivo con el mismo nombre en el destino, se agrega un sufijo `(1)`, `(2)`, etc.
 
 ## 🤝 Contribuir
 
