@@ -101,7 +101,7 @@ El organizador crea estas carpetas dentro de `DOWNLOADS_PATH` (por defecto `~/Do
 - **💿 Archives/Installers**: `.dmg`
 - **📊 Excels**: `.xls`, `.xlsx`, `.ods`, `.csv`
 - **📽️ Media**: `.mp3`, `.mp4`, `.wav`, `.mov`, `.avi`
-- **💾 Codes**: `.py`, `.js`, `.css`, `.java`, `.php`, `.ts`, `.swift`, `.sql`, `.db`, `.ipynb`, `.sh`
+- **💾 Codes**: `.py`, `.js`, `.css`, `.java`, `.php`, `.ts`, `.swift`, `.sql`, `.db`, `.ipynb`, `.sh`, `.env`
 - **🌐 Codes/HTMLs**: `.html`
 - **🧾 Codes/JSONs**: `.json`
 - **📜 Codes/Logs**: `.log`

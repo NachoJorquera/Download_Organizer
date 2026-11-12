@@ -2,7 +2,7 @@ CATEGORIES = {
     "Archives": [".rar", ".7z"],
     "Archives/Installers": [".dmg"],
     "Archives/ZIPs": [".zip"],
-    "Codes": [".py", ".js", ".css", ".java", ".php", ".ts", ".swift", ".sql", ".db", ".ipynb", ".sh"],
+    "Codes": [".py", ".js", ".css", ".java", ".php", ".ts", ".swift", ".sql", ".db", ".ipynb", ".sh", ".env"],
     "Codes/HTMLs": [".html"],
     "Codes/JSONs": [".json"],
     "Codes/Logs": [".log"],
