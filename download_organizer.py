@@ -13,13 +13,13 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-# Pre-compiled regex for macOS screenshot filenames in English and Spanish.
-# Covers: "Screenshot 2024-01-15 at 10.30.00.png",
-# "Captura de pantalla 2024-01-15 a la(s) 10.30.00.png"
-# and duplicates of both: "... 10.30.00 2.png"
+# Pre-compiled regex for macOS screenshot filenames in English and Spanish, 12h or 24h clock.
+# Covers: "Screenshot 2024-01-15 at 10.30.00.png", "Screenshot 2024-01-15 at 7.05.03 PM.png",
+# "Captura de pantalla 2024-01-15 a la(s) 7.05.03 p.m..png" and duplicates: "... 2.png".
+# macOS separates the AM/PM marker with U+202F, which \s matches.
 SCREENSHOT_RE = re.compile(
     r"^(?:Screenshot|Captura de pantalla) \d{4}-\d{2}-\d{2} (?:at|a la\(s\)) "
-    r"\d{2}\.\d{2}\.\d{2}(?: \d+)?\.png$"
+    r"\d{1,2}\.\d{2}\.\d{2}(?:\s[AaPp]\.?\s?[Mm]\.?)?(?: \d+)?\.png$"
 )
 
 # Build a lookup dict {".pdf": "Documents", ".zip": "Archives", ...}
