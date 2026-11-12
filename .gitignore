@@ -8,5 +8,5 @@ __pycache__/
 # Archivo de configuración de entorno
 .venv/
 
-# Documentación de  Claude
-CLAUDE.md
+# Variables de entorno locales
+.env
