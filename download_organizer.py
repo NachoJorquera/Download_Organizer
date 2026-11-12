@@ -5,7 +5,7 @@ import sys
 from shutil import move
 from config import CATEGORIES, TEMP_EXTENSIONS
 
-DOWNLOADS_PATH = os.path.expanduser("~/Downloads")
+DOWNLOADS_PATH = os.path.expanduser(os.environ.get("DOWNLOADS_PATH", "~/Downloads"))
 
 logging.basicConfig(
     level=logging.INFO,

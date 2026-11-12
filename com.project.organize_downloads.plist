@@ -8,12 +8,12 @@
     <key>ProgramArguments</key>
     <array>
         <string>/bin/bash</string>
-        <string>/Users/nacho/Projects/Download_Organizer/launch_organizer.sh</string>
+        <string>/Users/your_user/Download_Organizer/launch_organizer.sh</string>
     </array>
 
     <key>WatchPaths</key>
     <array>
-        <string>/Users/nacho/Downloads</string>
+        <string>/Users/your_user/Downloads</string>
     </array>
 
     <key>RunAtLoad</key>
@@ -33,7 +33,7 @@
         <key>PATH</key>
         <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
         <key>HOME</key>
-        <string>/Users/nacho</string>
+        <string>/Users/your_user</string>
     </dict>
 </dict>
 </plist>

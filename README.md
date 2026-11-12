@@ -28,12 +28,18 @@ cd Download_Organizer
 ### 2. Configurar permisos del script
 
 ```bash
-chmod +x launch_organizer.sh
+chmod +x launch_organizer.sh install.sh
 ```
 
-### 3. Personalizar configuración (opcional)
+### 3. Crear el archivo `.env`
 
-Edita `config.py` para personalizar las categorías y extensiones:
+```bash
+cp .env.example .env
+```
+
+`.env` define `DOWNLOADS_PATH`, la carpeta que se vigila y organiza. Por defecto es `$HOME/Downloads`. Git ignora este archivo.
+
+Edita `config.py` si quieres personalizar las categorías y extensiones:
 
 ```bash
 nano config.py
@@ -54,12 +60,10 @@ nano config.py
 ### 5. Instalar el LaunchAgent
 
 ```bash
-# Copiar el archivo plist a LaunchAgents
-cp com.project.organize_downloads.plist ~/Library/LaunchAgents/
-
-# Cargar el servicio
-launchctl load ~/Library/LaunchAgents/com.project.organize_downloads.plist
+./install.sh
 ```
+
+`install.sh` copia el plist a `~/Library/LaunchAgents/` con las rutas de `.env` y de la carpeta del proyecto, y carga el servicio. Vuelve a ejecutarlo si cambias `.env` o mueves el proyecto.
 
 ### 6. Verificar instalación
 
@@ -140,10 +144,10 @@ CATEGORIES = {
 
 ### Cambiar ruta de Downloads
 
-Edita `download_organizer.py` línea 7:
+Edita `DOWNLOADS_PATH` en `.env` y vuelve a ejecutar `./install.sh`:
 
-```python
-DOWNLOADS_PATH = "/ruta/a/tu/carpeta"  # Cambiar ruta
+```bash
+DOWNLOADS_PATH="/ruta/a/tu/carpeta"
 ```
 
 ## 🔍 Solución de problemas
