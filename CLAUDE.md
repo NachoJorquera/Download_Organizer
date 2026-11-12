@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A macOS LaunchAgent that monitors `~/Downloads` and automatically moves files into categorized subdirectories based on their extension. No external dependencies — uses only Python 3 stdlib.
+A macOS LaunchAgent that monitors the folder in `DOWNLOADS_PATH` (default `~/Downloads`) and moves each file into a category folder based on its extension. No external dependencies: it uses only the Python 3 stdlib.
 
 ## Running and Testing
 
@@ -17,7 +17,7 @@ python3 -m unittest
 
 # Test a specific file type
 touch ~/Downloads/test.pdf
-# Verify it moved to ~/Downloads/Documents/
+# Verify it moved to ~/Downloads/Documents/PDFs/
 
 # Check service logs (stdout has move operations, stderr has errors)
 cat /tmp/com.project.organize_downloads.out
@@ -44,10 +44,10 @@ plutil -lint ~/Library/LaunchAgents/com.project.organize_downloads.plist
 
 ## Architecture
 
-- **`config.py`** — `CATEGORIES` dict maps folder names to extension lists. `TEMP_EXTENSIONS` set defines browser temporary file extensions to ignore. This is the only file that needs editing to add/remove categories or extensions.
-- **`download_organizer.py`** — On startup, builds an `EXTENSION_MAP` (reverse lookup dict `{ext: folder}`) from `CATEGORIES` for O(1) extension matching. Creates destination folders, then iterates files and moves each one. Skips dotfiles and incomplete browser downloads. Handles name collisions by appending `(1)`, `(2)`, etc. Logs all operations via Python `logging`.
+- **`config.py`**: the `CATEGORIES` dict maps folder names to extension lists. Keys can be nested paths such as `"Codes/JSONs"`, and `create_folders` creates the parents. Each extension must appear in only one category: `EXTENSION_MAP` uses `setdefault`, so the first category listed wins and a later subfolder never receives the files. `TEMP_EXTENSIONS` lists the browser temporary file extensions to ignore. This is the only file that needs editing to add or remove categories or extensions.
+- **`download_organizer.py`**: on startup, builds an `EXTENSION_MAP` (reverse lookup dict `{ext: folder}`) from `CATEGORIES` for O(1) extension matching. Creates destination folders, then iterates the files in the root of `DOWNLOADS_PATH` (never subfolders, so files already inside a category folder stay put) and moves each one. Extensions come from `os.path.splitext`, so `app.env.local` has extension `.local`. Skips dotfiles and incomplete browser downloads. Handles name collisions by appending `(1)`, `(2)`, etc. Logs all operations via Python `logging`.
 
-**Key logic detail**: `Screenshots` is not in `CATEGORIES` — it's a special folder created alongside category folders. `.png` files are checked first against a compiled regex for macOS screenshot filenames in English (`Screenshot YYYY-MM-DD at HH.MM.SS.png`) and Spanish (`Captura de pantalla YYYY-MM-DD a la(s) HH.MM.SS.png`), on a 24h or 12h clock (`7.05.03 PM`, `7.05.03 p.m.`, with U+202F before the marker), including duplicates like `... 2.png`. Non-screenshot PNGs fall through to `Images` via the normal extension lookup.
+**Key logic detail**: `Screenshots` is not in `CATEGORIES`; it's a special folder created alongside category folders. `.png` files are checked first against a compiled regex for macOS screenshot filenames in English (`Screenshot YYYY-MM-DD at HH.MM.SS.png`) and Spanish (`Captura de pantalla YYYY-MM-DD a la(s) HH.MM.SS.png`), on a 24h or 12h clock (`7.05.03 PM`, `7.05.03 p.m.`, with U+202F before the marker), including duplicates like `... 2.png`. Non-screenshot PNGs fall through to `Images` via the normal extension lookup.
 
 **Trigger mechanism**: The `.plist` uses `WatchPaths` with a 5-second `ThrottleInterval` and `RunAtLoad: true`, so it organizes existing files at login and reacts to changes with debouncing.
 

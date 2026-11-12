@@ -81,7 +81,7 @@ launchctl list | grep com.project.organize_downloads
    touch ~/Downloads/test.pdf
    ```
 
-2. **Espera unos segundos** y verifica que se movió a `~/Downloads/Documents/`
+2. **Espera unos segundos** y verifica que se movió a `~/Downloads/Documents/PDFs/`
 
 3. **El organizador está funcionando** si el archivo desapareció de la raíz de Downloads
 
