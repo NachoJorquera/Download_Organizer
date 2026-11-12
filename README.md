@@ -89,15 +89,23 @@ launchctl list | grep com.project.organize_downloads
 
 El organizador crea estas carpetas dentro de `DOWNLOADS_PATH` (por defecto `~/Downloads/`). Las extensiones salen de `config.py` y no distinguen mayúsculas:
 
-- **📄 Documents**: `.pdf`, `.docx`, `.txt`, `.epub`
+- **📄 Documents**: `.txt`
+- **📕 Documents/PDFs**: `.pdf`
+- **📝 Documents/Words**: `.docx`
+- **📚 Documents/eBooks**: `.epub`
 - **🖼️ Images**: `.jpg`, `.jpeg`, `.png`, `.gif`, `.heic`, `.webp`
 - **🎨 Images/SVGs**: `.svg`
 - **📸 Screenshots**: capturas de pantalla de macOS en inglés o español, con reloj de 12 o 24 horas
-- **🗜️ Archives**: `.zip`, `.rar`, `.7z`
+- **🗜️ Archives**: `.rar`, `.7z`
+- **🗜️ Archives/ZIPs**: `.zip`
 - **💿 Archives/Installers**: `.dmg`
 - **📊 Excels**: `.xls`, `.xlsx`, `.ods`, `.csv`
 - **📽️ Media**: `.mp3`, `.mp4`, `.wav`, `.mov`, `.avi`
-- **💾 Codes**: `.py`, `.js`, `.html`, `.css`, `.java`, `.php`, `.ts`, `.swift`, `.sql`, `.db`, `.ipynb`, `.json`, `.md`, `.sh`
+- **💾 Codes**: `.py`, `.js`, `.css`, `.java`, `.php`, `.ts`, `.swift`, `.sql`, `.db`, `.ipynb`, `.sh`
+- **🌐 Codes/HTMLs**: `.html`
+- **🧾 Codes/JSONs**: `.json`
+- **📜 Codes/Logs**: `.log`
+- **🗒️ Codes/Markdowns**: `.md`
 - **📑 PPTs**: `.ppt`, `.pptx`, `.odp`
 
 Los archivos con otras extensiones se quedan donde están.
