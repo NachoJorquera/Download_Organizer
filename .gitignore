@@ -10,3 +10,6 @@ __pycache__/
 
 # Variables de entorno locales
 .env
+
+# Configuración local de Claude Code
+.claude/
